@@ -39,7 +39,8 @@ module.exports = {
     // 
     devServer: {
         // set equal to absolute path to public assets 
-        contentBase: path.join(__dirname, 'public')
+        contentBase: path.join(__dirname, 'public'),
+        historyApiFallback: true
     }
 };
 
