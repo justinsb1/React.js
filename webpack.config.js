@@ -18,7 +18,7 @@ module.exports = (env) => {
             // output is an object
             output: {
                 // path is where you want to output the file. must be an absolute path
-                path: path.join(__dirname, 'public'),
+                path: path.join(__dirname, 'public', 'dist'),
                 filename: 'bundle.js'
             },
             // set up loader
@@ -58,11 +58,11 @@ module.exports = (env) => {
             devServer: {
                 // set equal to absolute path to public assets 
                 contentBase: path.join(__dirname, 'public'),
-                historyApiFallback: true
+                historyApiFallback: true,
+                publicPath: '/dist'
         }
-    }
-
-}
+    };
+};
 
 
 // LOADER - lets you customize the behavior of webpack when it loads a given file
