@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
-import { addExpense } from '../actions/expenses';
+import { startAddExpense } from '../actions/expenses';
 
 // must be able to test unconncected version
 export class AddExpensePage extends React.Component {
     onSubmit = (expense) => {
         // props.dispatch(addExpense(expense));
-        this.props.addExpense(expense);
+        this.props.startAddExpense(expense);
          // history.push sends you back to the dashboard page upon submit
         this.props.history.push('/');
     };
@@ -26,7 +26,7 @@ export class AddExpensePage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
     // setup name equal to the action generator 
-    addExpense: (expense) => dispatch(addExpense(expense))   
+    startAddExpense: (expense) => dispatch(startAddExpense(expense))   
 });
 
 export default connect(undefined, mapDispatchToProps)(AddExpensePage);

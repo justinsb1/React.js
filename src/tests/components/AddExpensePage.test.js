@@ -3,12 +3,12 @@ import { shallow } from 'enzyme';
 import { AddExpensePage } from '../../components/AddExpensePage';
 import expenses from '../fixtures/expenses';
 
-let addExpense, history, wrapper;
+let startAddExpense, history, wrapper;
 // define so that each test case starts with fresh variables. uses these in all the test cases.
 beforeEach(() => {
-    addExpense = jest.fn();
+    startAddExpense = jest.fn();
     history = { push: jest.fn() };
-    wrapper = shallow(<AddExpensePage addExpense={addExpense} history={history}/>);
+    wrapper = shallow(<AddExpensePage startAddExpense={startAddExpense} history={history}/>);
 });
 
 test('should render AddExpensePage correctly', () => {
@@ -20,5 +20,5 @@ test('should handle onSubmit', () => {
     // history.push
     expect(history.push).toHaveBeenCalledWith('/');
     // onSubmit
-    expect(addExpense).toHaveBeenCalledWith(expenses[1]);
+    expect(startAddExpense).toHaveBeenCalledWith(expenses[1]);
 });
