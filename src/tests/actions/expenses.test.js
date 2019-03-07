@@ -1,4 +1,4 @@
-import { addExpense, startAddExpense, editExpense, removeExpense } from '../../actions/expenses';
+import { addExpense, startAddExpense, editExpense, removeExpense, setExpenses, startSetExpenses } from '../../actions/expenses';
 import expenses from '../fixtures/expenses';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -6,6 +6,16 @@ import database from '../../firebase/firebase';
 
 // create configuration so we call over and over in our test cases so they all create the same mock store
 const createMockStore = configureMockStore([thunk]);
+
+// get the test data
+beforeEach((done) => {
+    const expensesData = {};
+    expenses.forEach(({ id, description, note, amount, createdAt }) => {
+        expensesData[id] = { description, note, amount, createdAt };
+    });
+    // doesn't allow beforeEach to run until Firebase has synced all the data
+    database.ref('expenses').set(expensesData).then(() => done());
+});
 
 test('should setup remove expense action object', () => {
     const action = removeExpense({ id: '123abc' });
@@ -111,4 +121,27 @@ test('should add expense with defaults to database and store', (done) => {
               done();
       });
 
+});
+
+test('should setup set expense action object with data', () => {
+    const action = setExpenses(expenses);
+    // use toEqual to compare two objects
+    expect(action).toEqual({
+        type: 'SET_EXPENSES',
+        expenses
+    });
+});
+
+test('should fetch the expenses from firebase', (done) => {
+    // requires Asynchronous functionality
+    const store = createMockStore({});
+    // dispatch startSetExpenses. don't want the test cases to be done until firebase updates
+    store.dispatch(startSetExpenses()).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'SET_EXPENSES',
+            expenses
+        });
+        done();
+    });
 });
