@@ -1,4 +1,4 @@
-import { addExpense, startAddExpense, editExpense, removeExpense, setExpenses, startSetExpenses } from '../../actions/expenses';
+import { addExpense, startAddExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense } from '../../actions/expenses';
 import expenses from '../fixtures/expenses';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -22,6 +22,26 @@ test('should setup remove expense action object', () => {
     expect(action).toEqual({
         type: 'REMOVE_EXPENSE' ,
         id: '123abc'
+    });
+});
+
+// asyn action
+test('should remove expense from firebase', (done) => {
+    const store = createMockStore({});
+    const id = expenses[2].id;
+    store.dispatch(startRemoveExpense({ id })).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'REMOVE_EXPENSE',
+            id: id
+        });
+        // fetch the data.
+        // get the value just a single time
+        return database.ref(`expenses/${id}`).once('value');
+    }).then((snapshot) => {
+        // when you use snapshot.val on an item that doesn't exist, get null back
+        expect(snapshot.val()).toBeFalsy();
+        done();
     });
 });
 

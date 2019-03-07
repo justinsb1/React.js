@@ -50,6 +50,17 @@ export const removeExpense = ({ id } = {}) => ({
     id: id
 });
 
+// Asynchronous action - removes the data from firebase.
+export const startRemoveExpense = ({ id } = {}) => {
+    // this function communicates with firebase and dispatch action
+    return (dispatch) => {
+        return database.ref(`expenses/${id}`).remove().then(() => {
+            // once its removed, dispatch removeExpense from above
+            dispatch(removeExpense({ id }));
+        });
+    };
+};
+
 export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE' ,
     id: id ,

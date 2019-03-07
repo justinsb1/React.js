@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
-import { editExpense } from '../actions/expenses';
+import { editExpense, startRemoveExpense } from '../actions/expenses';
 
 // Refractor Page to be a class based component to allow us to pull out the inline functions to methods
 
@@ -17,7 +17,7 @@ export class EditExpensePage extends React.Component {
     };
 
     onRemove = () => { 
-        this.props.removeExpense({ id: this.props.expense.id }); 
+        this.props.startRemoveExpense({ id: this.props.expense.id }); 
         this.props.history.push('/'); 
     };
 
@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch, props) => {
         // dispatch whatever comes back from editExpense action generator
         editExpense: (id, expense) => dispatch(editExpense(id, expense)),
         // removeExpense requires prop so pass it in as second argument
-        removeExpense: (data) => dispatch(removeExpense(data))
+        startRemoveExpense: (data) => dispatch(startRemoveExpense(data))
     };
 };
 
