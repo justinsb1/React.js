@@ -4,17 +4,17 @@ import expenses from '../fixtures/expenses';
 import { EditExpensePage } from '../../components/EditExpensePage';
 
 
-let editExpense, startRemoveExpense, history, wrapper;
+let startEditExpense, startRemoveExpense, history, wrapper;
 
 beforeEach(() => {
     // use spies to define functions
-    editExpense = jest.fn();
+    startEditExpense = jest.fn();
     startRemoveExpense = jest.fn();
     // history is an object and push is the spy
     history = { push: jest.fn() };
     wrapper = shallow(<EditExpensePage 
-            editExpense={editExpense}
-            startRemoveExpense={startRuemoveExpense}
+            startEditExpense={startEditExpense}
+            startRemoveExpense={startRemoveExpense}
             history={history}
             expense={expenses[2]}
         />
@@ -30,13 +30,13 @@ test('should render EditExpensePage', () => {
 
 
 // should handle editExpense
-test('should handle editExpense', () => {
+test('should handle startEditExpense', () => {
     // find the onSubmit function inside of the ExpenseFrom and it editExpense gets called inside of onSubmit. onSubmit gets called with a expense argument
     wrapper.find('ExpenseForm').prop('onSubmit')(expenses[2])
     // history.push spy
     expect(history.push).toHaveBeenLastCalledWith('/');
     // editExpense spy
-    expect(editExpense).toHaveBeenLastCalledWith(expenses[2].id, expenses[2]);
+    expect(startEditExpense).toHaveBeenLastCalledWith(expenses[2].id, expenses[2]);
 });
 
 
