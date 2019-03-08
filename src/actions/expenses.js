@@ -25,7 +25,8 @@ export const addExpense = (expense) => ({
 // start the process to dispatch ADD_EXPENSE inside of the function we'll be setting up
 export const startAddExpense = (expenseData = {}) => {
     // return a function. only will work because of the middleware set up by Thunk
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
         // define defaults
         const {
             description = '',
@@ -35,7 +36,7 @@ export const startAddExpense = (expenseData = {}) => {
         } = expenseData;
         const expense = { description, note, amount, createdAt };
 
-        return database.ref('expenses').push(expense)
+        return database.ref(`users/${uid}/expenses`).push(expense)
         .then((ref) => {
             dispatch(addExpense({
                 id: ref.key ,
@@ -53,8 +54,9 @@ export const removeExpense = ({ id } = {}) => ({
 // Asynchronous action - removes the data from firebase.
 export const startRemoveExpense = ({ id } = {}) => {
     // this function communicates with firebase and dispatch action
-    return (dispatch) => {
-        return database.ref(`expenses/${id}`).remove().then(() => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
             // once its removed, dispatch removeExpense from above
             dispatch(removeExpense({ id }));
         });
@@ -69,8 +71,9 @@ export const editExpense = (id, updates) => ({
 
 // Edit the data from firebase
 export const startEditExpense = (id, updates) => {
-    return (dispatch) => {
-        return database.ref(`expenses${id}`).update(updates).then(() => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
             dispatch(editExpense(id, updates));
         });
     };
@@ -88,9 +91,10 @@ export const setExpenses = (expenses) => ({
 // Asynchronous action - fetches the data and dispatch setExpenses 
 // 1. Fetch all expense data once. 2. Parse that data into an array 3. Dispatch SET_EXPENSES
 export const startSetExpenses = () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
         // fetch from firebase
-        return database.ref('expenses').once('value').then((snapshot) => {
+        return database.ref(`users/${uid}/expenses`).once('value').then((snapshot) => {
             // snapshot gives an object structure... we want an array structure
             const expenses = [];
 
