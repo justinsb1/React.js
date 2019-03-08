@@ -23,7 +23,7 @@ module.exports = (env) => {
     return {
             // provide webpack config details 
             // entry is the file that gets executed by default
-            entry: './src/app.js' ,
+            entry: ['babel-polyfill', './src/app.js'] ,
             // output is an object
             output: {
                 // path is where you want to output the file. must be an absolute path
