@@ -1,0 +1,21 @@
+.button {
+    background: $blue;
+    border: none;
+    color: white;
+    // doesn't take top and bottom margin and padding into effect because it is in-line
+    display: inline-block;
+    font-size: $font-size-large;
+    // thickness of the font
+    font-weight: 300;
+    padding: $s-size;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.button--link {
+    background: none;
+}
+
+.button--secondary {
+    background: #888;
+}

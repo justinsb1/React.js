@@ -1,11 +1,15 @@
 // place to define default values - values used over and over within our app
 
 //  Colors =======================
+$dark-grey: #333333;
+$grey: #666;
+$blue: #1c88bf;
+$dark-blue: #364051;
+$off-white: #f7f7f7;
+// Font Sizes ===============================
+$font-size-large: 1.8rem;
 
-
-// ===============================
-
-
+$font-size-small: 1.4rem;
 
 //  Spacing =======================
 
@@ -20,6 +24,7 @@ $xl-size: 4.8rem;
 
 // small size
 $s-size: 1.2rem;
+
 
 // desktop view
 $desktop-breakpoint: 45rem;
